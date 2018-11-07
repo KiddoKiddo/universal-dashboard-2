@@ -11,6 +11,8 @@ npm install
 
 ## Test run
 
+![](/client/public/assets/gif/sample.gif)
+
 1. Run command
 ```
 npm run start:dev
