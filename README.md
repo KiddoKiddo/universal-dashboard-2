@@ -11,8 +11,12 @@ npm install
 
 ## Test run
 
-1. Using REST API to create new dashboard configuration as below.
-2. Access to dashboard through link http://locahost:8080/dashboard/{_id}, where **_id** is the generated id for the dashboard configuration.
+1. Run command
+```
+npm start run:dev
+```
+2. Using REST API to create new dashboard configuration as below.
+3. Access to dashboard through link http://locahost:8080/dashboard/{_id}, where **_id** is the generated id for the dashboard configuration.
 
 ```
 POST /api/dashboard
