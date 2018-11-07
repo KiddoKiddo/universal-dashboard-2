@@ -1,0 +1,21 @@
+.panel-creator {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .panel-title {
+
+  }
+
+  .panel-body {
+    flex: 1;
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+}
+.dashboard-container {
+  background: #eeeeee;
+  min-height: 100vh;
+}

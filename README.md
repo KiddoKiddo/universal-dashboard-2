@@ -1,33 +1,138 @@
-# MERN-boilerplate
+# Universal Dashboard
+## Prerequisite
+1. Install MongoDB
+2. Input the connection string of MongoDB in the file **/config/config.js**
 
-This is a boilerplate project using the following technologies:
-- [React](https://facebook.github.io/react/) and [React Router](https://reacttraining.com/react-router/) for the frontend
-- [Express](http://expressjs.com/) and [Mongoose](http://mongoosejs.com/) for the backend
-- [Sass](http://sass-lang.com/) for styles (using the SCSS syntax)
-- [Webpack](https://webpack.github.io/) for compilation
+## Installation
 
-
-## Requirements
-
-- [Node.js](https://nodejs.org/en/) 6+
-
-```shell
+```
 npm install
 ```
 
+## Test run
 
-## Running
+1. Using REST API to create new dashboard configuration as below.
+2. Access to dashboard through link http://locahost:8080/dashboard/{_id}, where **_id** is the generated id for the dashboard configuration.
 
-Make sure to add a `config.js` file in the `config` folder. See the example there for more details.
+```
+POST /api/dashboard
+{
+  "name": "TEST DASHBOARD",
+  "datasources": [
+    {
+      "name": "mqtt-test",
+      "type": "mqtt",
+      "topic": "ud-points",
+      "host": "localhost",
+      "rate": 1,
+      "rateUnit": "s"
+    },
+    {
+      "name": "mqtt-test-2",
+      "type": "mqtt",
+      "topic": "ud-status",
+      "host": "localhost",
+      "rate": 1,
+      "rateUnit": "s"
+    }
+  ],
+  "panels": [
+    {
+      "dsName": "mqtt-test",
+      "title": "Title 1",
+      "panel": "Text",
+      "options": {
+        "path": "data[0]",
+        "inlineStyle": {
+          "color": "blue"
+        }
+      }
+    },
+    {
+      "dsName": "mqtt-test",
+      "title": "Title 2",
+      "panel": "Text",
+      "options": {
+        "path": "data[1]",
+        "inlineStyle": {
+          "color": "red"
+        }
+      }
+    },
+    {
+      "dsName": "mqtt-test",
+      "title": "Title 3",
+      "panel": "Text",
+      "options": {
+        "path": "data[2]",
+        "inlineStyle": {
+          "fontStyle": "italic"
+        }
+      }
+    },
+    {
+      "dsName": "mqtt-test",
+      "title": "Title 4",
+      "panel": "Text",
+      "options": {
+        "path": "data[3]",
+        "inlineStyle": {
+          "fontSize": 70
+        }
+      }
+    },
+    {
+      "dsName": "mqtt-test",
+      "title": "Title 5",
+      "panel": "Gauge",
+      "options": {
+        "path": "data[4]"
+      }
+    },
+    {
+      "dsName": "mqtt-test-2",
+      "title": "Tile 6",
+      "panel": "StatusText",
+      "options": {
+        "idPath": "machine",
+        "id": 1,
+        "statusPath": "status",
+        "statusEncode": {
+          "0": "Stop",
+          "1": "Running",
+          "2": "Idle",
+        }
+      }
+    }
+  ]
+}
 
-Production mode:
-
-```shell
-npm start
 ```
 
-Development (Webpack dev server) mode:
 
-```shell
-npm run start:dev
-```
+## Usage
+
+## Configuration
+### Data Sources
+#### MySQL
+Field | Description | Type | Required
+----- | ----------- | ---- | --------
+host  |
+port  |
+user  |
+password|
+
+### Panels
+#### Text
+
+#### Status Text
+
+#### Gauge
+
+#### Image
+
+## Contributing
+
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
