@@ -122,6 +122,31 @@ port  |
 user  |
 password|
 
+## API
+
+A version of API examples can be accessed from https://www.getpostman.com/collections/95a9355a87f3bf6fe205
+
+1. Create new dashboard
+
+```
+POST /api/dashboard
+{
+  ...dashboard configuration...
+}
+```
+
+Response
+
+```
+{
+  ...dashboard configuration with generated _id...
+}
+```
+
+2. Update dashboard
+
+3. Delete dashboard
+
 ### Panels
 #### Text
 
