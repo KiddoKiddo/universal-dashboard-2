@@ -14,6 +14,7 @@ import './StatusText.scss';
 const StatusText = (props) => {
   const { data, options } = props;
   const extOptions = Object.assign({}, options, {
+    // Default options
     idPath: 'machine',
     statusPath: 'status',
   });
