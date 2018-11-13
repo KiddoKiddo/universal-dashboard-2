@@ -1,7 +1,16 @@
 # Universal Dashboard
 ## Prerequisite
 1. Install MongoDB
-2. Input the connection string of MongoDB in the file **/config/config.js**
+2. Create a config file at **/config/config.js**. Fill the connection string of MongoDB in the file
+
+Example:
+```javascript
+module.exports = {
+  db: 'mongodb://localhost:27017/universal-dashboard',
+  db_dev: 'mongodb://localhost:27017/universal-dashboard',
+}
+```
+
 
 ## Installation
 
