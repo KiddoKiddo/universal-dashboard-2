@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'whatwg-fetch';
 import openSocket from 'socket.io-client';
 
-const socket = openSocket('');
+// const socket = openSocket('');
 
 class Home extends Component {
   constructor(props) {
@@ -88,7 +88,7 @@ class Home extends Component {
   }
 
   sendSocketIO() {
-    socket.emit('example_message', 'demo');
+    // socket.emit('example_message', 'demo');
   }
 
   render() {

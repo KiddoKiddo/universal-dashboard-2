@@ -35,7 +35,10 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         data: {
           ...state.data,
-          [action.id]: action.payload,
+          [action.id]: {
+            ...state.data[action.id],
+            ...action.payload,
+          },
         },
       });
 

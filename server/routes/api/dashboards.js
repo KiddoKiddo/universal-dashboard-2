@@ -1,5 +1,5 @@
-const assign = require('deep-assign');
 const Dashboard = require('../../models/Dashboard');
+const _ = require('lodash');
 
 const route = 'dashboard';
 
@@ -16,7 +16,7 @@ module.exports = (app) => {
   app.post(`/api/${route}`, (req, res, next) => {
     const config = req.body;
     if (!config) {
-      return res.status(404).send({ message: 'No config is received.' });
+      res.status(404).send({ message: 'No config is received.' });
     }
     const dashboard = new Dashboard(config);
 
@@ -38,7 +38,42 @@ module.exports = (app) => {
     Dashboard.findById(req.params.id)
       .exec()
       .then((dashboard) => {
-        assign(dashboard, req.body);
+        if (!dashboard) {
+          throw new Error(`There is no config with id ${req.params.id}`);
+        }
+        _.assignIn(dashboard, req.body);
+        dashboard.save()
+          .then(() => res.json(dashboard))
+          .catch(err => next(err));
+      })
+      .catch(err => next(err));
+  });
+
+  // Add datasoures
+  app.post(`/api/${route}/:id/datasources`, (req, res, next) => {
+    Dashboard.findById(req.params.id)
+      .exec()
+      .then((dashboard) => {
+        if (!dashboard) {
+          throw new Error(`There is no config with id ${req.params.id}`);
+        }
+        dashboard.datasources.push(req.body);
+        dashboard.save()
+          .then(() => res.json(dashboard))
+          .catch(err => next(err));
+      })
+      .catch(err => next(err));
+  });
+
+  // Add datasoures
+  app.post(`/api/${route}/:id/panels`, (req, res, next) => {
+    Dashboard.findById(req.params.id)
+      .exec()
+      .then((dashboard) => {
+        if (!dashboard) {
+          throw new Error(`There is no config with id ${req.params.id}`);
+        }
+        dashboard.panels.push(req.body);
         dashboard.save()
           .then(() => res.json(dashboard))
           .catch(err => next(err));

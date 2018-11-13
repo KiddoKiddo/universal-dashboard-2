@@ -43,7 +43,7 @@ const StatusText = (props) => {
 };
 
 StatusText.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.any,
   options: PropTypes.object,
 };
 

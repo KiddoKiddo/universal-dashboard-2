@@ -23,20 +23,15 @@ npm run start:dev
 ```
 POST /api/dashboard
 {
-  "name": "TEST DASHBOARD",
+  "name": "Multiple topics mqtt",
   "datasources": [
     {
       "name": "mqtt-test",
-      "type": "mqtt",
-      "topic": "ud-points",
-      "host": "localhost",
-      "rate": 1,
-      "rateUnit": "s"
-    },
-    {
-      "name": "mqtt-test-2",
-      "type": "mqtt",
-      "topic": "ud-status",
+      "type": "MQTT",
+      "topics": [
+        "ud-points",
+        "ud-status"
+      ],
       "host": "localhost",
       "rate": 1,
       "rateUnit": "s"
@@ -44,7 +39,10 @@ POST /api/dashboard
   ],
   "panels": [
     {
-      "dsName": "mqtt-test",
+      "datasource": {
+        "name": "mqtt-test",
+        "index": 1
+      },
       "title": "Title 1",
       "panel": "Text",
       "options": {
@@ -55,7 +53,10 @@ POST /api/dashboard
       }
     },
     {
-      "dsName": "mqtt-test",
+      "datasource": {
+        "name": "mqtt-test",
+        "index": 1
+      },
       "title": "Title 2",
       "panel": "Text",
       "options": {
@@ -66,7 +67,10 @@ POST /api/dashboard
       }
     },
     {
-      "dsName": "mqtt-test",
+      "datasource": {
+        "name": "mqtt-test",
+        "index": 1
+      },
       "title": "Title 3",
       "panel": "Text",
       "options": {
@@ -77,7 +81,10 @@ POST /api/dashboard
       }
     },
     {
-      "dsName": "mqtt-test",
+      "datasource": {
+        "name": "mqtt-test",
+        "index": 1
+      },
       "title": "Title 4",
       "panel": "Text",
       "options": {
@@ -88,7 +95,10 @@ POST /api/dashboard
       }
     },
     {
-      "dsName": "mqtt-test",
+      "datasource": {
+        "name": "mqtt-test",
+        "index": 1
+      },
       "title": "Title 5",
       "panel": "Gauge",
       "options": {
@@ -96,23 +106,25 @@ POST /api/dashboard
       }
     },
     {
-      "dsName": "mqtt-test-2",
+      "datasource": {
+        "name": "mqtt-test",
+        "index": 2
+      },
       "title": "Tile 6",
       "panel": "StatusText",
       "options": {
-        "idPath": "machine",
         "id": 1,
+        "idPath": "machine",
         "statusPath": "status",
         "statusEncode": {
           "0": "Stop",
           "1": "Running",
-          "2": "Idle",
+          "2": "Idle"
         }
       }
     }
   ]
 }
-
 ```
 
 

@@ -6,22 +6,30 @@ const DashboardSchema = new mongoose.Schema({
     name: String,
     type: {
       type: String,
-      enum: ['mqtt', 'opcua', 'mysql'],
+      enum: ['MQTT', 'OPCUA', 'MYSQL'],
     },
-    host: String, // mqtt, mysql
-    port: Number, // mqtt, mysql
-    topic: String, // mqtt
-    user: String, // mysql
-    password: String, // mysql
-    database: String, // mysql
+    // Common properties
     rate: Number,
     rateUnit: {
       type: String,
-      enum: ['ms', 's', 'm'],
+      enum: ['ms', 's', 'm', 'h'],
     },
+    url: String,
+    host: String,
+    port: Number,
+
+    topics: [String], // mqtt
+
+    username: String, // mysql
+    password: String, // mysql
+    database: String, // mysql
+    queries: [String], // mysql
   }],
   panels: [{
-    dsName: String,
+    datasource: {
+      name: String,
+      index: Number,
+    },
     title: String,
     panel: String,
     options: {},

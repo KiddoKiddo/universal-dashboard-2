@@ -6,7 +6,9 @@ const _ = require('lodash');
 // Import utils
 const utils = require('./utils');
 
+// Services
 const MQTTService = require('./services/mqtt-service');
+const MYSQLService = require('./services/mysql-service');
 
 class ServiceManager {
   /*
@@ -19,16 +21,17 @@ class ServiceManager {
     this.store = {};
   }
 
-  constructService(type = 'mqtt', options) {
+  constructService(type = 'MQTT', options) {
     let service;
-    if (type === 'mqtt') {
+    if (type === 'MQTT') {
       service = new MQTTService(options);
+    } else if (type === 'MYSQL') {
+      service = new MYSQLService(options);
     }
     return service;
   }
 
   execService(socket, options) {
-    const serviceId = shortid();
     const {
       _id,
       type,
@@ -38,8 +41,12 @@ class ServiceManager {
 
     // Create a new service for a datasource
     const service = this.constructService(type, options);
+    if (!service) {
+      console.log(`[ SM ] Cannot create service ${type}, ${_id}`);
+    }
 
     // Put into store
+    const serviceId = shortid();
     this.store[serviceId] = {
       serviceId,
       socket,
@@ -53,6 +60,7 @@ class ServiceManager {
 
     // Generic handler to send data back to client
     // _id is datasourceId
+    // "data" must have format: { "id1": payload }
     service.on('data', (data) => {
       // Sampling rate using the rate limiter hence some data is missing
       if (limiter.tryRemoveTokens(1)) {
@@ -71,6 +79,8 @@ class ServiceManager {
 
     // Remove from the store
     delete this.store[serviceId];
+
+    console.log('[ SM ] Size of service store: ', _.size(this.store));
 
     return true;
   }

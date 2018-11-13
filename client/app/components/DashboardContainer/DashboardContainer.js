@@ -60,8 +60,10 @@ class DashboardContainer extends Component {
     }
   }
 
-  getData(datasources, dsName) {
-    return this.props.data[_.find(datasources, ['name', dsName])._id];
+  getData(datasources, ds) {
+    const { name, index } = ds;
+    const datasourceId = _.find(datasources, ['name', name])._id;
+    return _.get(this.props.data, `${datasourceId}.id${index}`);
   }
 
   // Generate the layout when layout is not available
@@ -92,7 +94,7 @@ class DashboardContainer extends Component {
         {config.panels.map(
           panel => (
             <div key={panel._id}>
-              <PanelCreator data={this.getData(config.datasources, panel.dsName)} {...panel} />
+              <PanelCreator data={this.getData(config.datasources, panel.datasource)} {...panel} />
             </div>
           )
         )}
@@ -120,15 +122,5 @@ class DashboardContainer extends Component {
 }
 
 // TODO: Type checking
-// DashboardContainer.propTypes = {
-//   config: PropTypes.shape({
-//     _id: PropTypes.string, // dashboardId
-//     panels: PropTypes.arrayOf(PropTypes.shape({
-//       dsName: PropTypes.string,
-//       panel: PropTypes.string,
-//     })),
-//   }).isRequired,
-//   dispatch: PropTypes.func.isRequired,
-// };
 
 export default connect(mapStateToProps)(DashboardContainer);

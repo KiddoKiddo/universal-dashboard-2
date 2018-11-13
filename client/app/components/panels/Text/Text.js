@@ -13,15 +13,18 @@ import './Text.scss';
 
 const Text = (props) => {
   const { data, options } = props;
+  const extOptions = Object.assign({}, options, {
+    // Default options
+  });
   return (
-    <div className="text" style={options.inlineStyle}>
-      { _.get(data, options.path, '') }
+    <div className="text" style={extOptions.inlineStyle}>
+      { _.get(data, extOptions.path, '') }
     </div>
   );
 };
 
 Text.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.any,
   options: PropTypes.object,
 };
 

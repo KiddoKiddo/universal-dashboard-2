@@ -1,53 +1,91 @@
 // Import library
 const mysql = require('mysql');
 const EventEmitter = require('events');
+const _ = require('lodash');
+
+// Import utils
+const utils = require('../utils');
 
 class MySQLService extends EventEmitter {
   constructor(options) {
     super();
 
     const {
+      url,
       host,
       port,
-      user,
+      username,
       password,
       database,
-      sql,
+      queries,
+      rate,
+      rateUnit,
     } = options;
 
+    // this.url = url;
     this.host = host;
     this.port = port;
-    this.user = user;
+    this.username = username;
     this.password = password;
     this.database = database;
+    this.queries = queries;
+    this.data = {};
 
-    this.santinizeHost();
+    this.validateUrl();
+    this.validationConfig();
 
     console.log(`[ MySQL ] Atempt to connect [${this.host}] with database [${this.database}]`);
-    this.client = MySQL.connect(`MySQL://${this.host}`);
-
-    // Register topic
-    this.client.on('connect', () => {
-      console.log(`[ MySQL ] Successfully connect to broker [${this.host}].`);
-      this.client.subscribe(this.topic);
+    this.connection = mysql.createConnection({
+      host: this.host,
+      user: this.username,
+      password: this.password,
+      database: this.database,
     });
+    try {
+      this.connection.connect();
+    } catch (e) {
+      console.log(`[ MySQL ] ${e}`);
+      return null;
+    }
 
-    // Receive data
-    this.client.on('message', (topic, message) => {
-      this.emit('data', JSON.parse(message.toString()));
-    });
+    this.interval = setInterval(() => {
+      this.queries.forEach((query, index) => {
+        this.connection.query(query, (error, results) => {
+          if (error) throw error;
+          _.assignIn(this.data, { [`id${index}`]: results });
+        });
+      });
+
+      this.emit('data', this.data);
+    }, utils.getRateLimiterMilliseconds(rate, rateUnit));
+
+    // // Receive data
+    // this.client.on('message', (topic, message) => {
+    //   this.emit('data', JSON.parse(message.toString()));
+    // });
+  }
+
+  validateUrl() {
+    if (!_.isNil(this.url)) {
+      this.url = this.url.replace('mysql://', '');
+      return;
+    }
+    if (_.isNil(this.host)) {
+      throw new Error('[ MQTT ] Both url and host is not defined');
+    }
+    this.host = this.host.replace('mysql://', '');
+    this.port = this.port || 3306;
+    this.url = `${this.host}:${this.port}`;
   }
 
   validationConfig() {
-    if (!this.host) {
-      throw new Error('[ MySQL ] Host is not defined');
-    }
-    // TODO: To santinize host
+    // TODO: Validate username, password, database, queries
   }
 
   kill() {
-    console.log(`[ MySQL ] Successfully disconnect from broker [${this.host}].`);
-    this.client.end();
+    console.log(`[ MySQL ] Successfully disconnect from database [${this.url}].`);
+    this.connection.end();
+    clearInterval(this.interval);
   }
 }
 

@@ -5,7 +5,9 @@ module.exports = {
       case 's':
         inMilliseconds = 1000; break;
       case 'm':
-        inMilliseconds = 1000; break;
+        inMilliseconds = 60000; break;
+      case 'h':
+        inMilliseconds = 3600000; break;
       default:
         inMilliseconds = 1; break;
     }
