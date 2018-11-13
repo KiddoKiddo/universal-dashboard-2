@@ -12,26 +12,30 @@ npm install
 ## Test run
 
 ![](/client/public/assets/gif/sample.gif)
-
-1. Run command
+1. Run sample mqtt data source
+```
+npm run test:mqtt
+```
+2. Run command
 ```
 npm run start:dev
 ```
-2. Using REST API to create new dashboard configuration as below.
-3. Access to dashboard through link http://locahost:8080/dashboard/{_id}, where **_id** is the generated id for the dashboard configuration.
+3. Using REST API to create new dashboard configuration as below.
+
+4. Access to dashboard through link http://locahost:8080/dashboard/{_id}, where **_id** is the generated id for the dashboard configuration.
 
 ```
 POST /api/dashboard
 {
-  "name": "Multiple topics mqtt",
+  "name": "Dashboard Sample",
   "datasources": [
     {
-      "name": "mqtt-test",
-      "type": "MQTT",
       "topics": [
         "ud-points",
         "ud-status"
       ],
+      "name": "mqtt-test",
+      "type": "MQTT",
       "host": "localhost",
       "rate": 1,
       "rateUnit": "s"
@@ -41,7 +45,7 @@ POST /api/dashboard
     {
       "datasource": {
         "name": "mqtt-test",
-        "index": 1
+        "index": 0
       },
       "title": "Title 1",
       "panel": "Text",
@@ -55,7 +59,7 @@ POST /api/dashboard
     {
       "datasource": {
         "name": "mqtt-test",
-        "index": 1
+        "index": 0
       },
       "title": "Title 2",
       "panel": "Text",
@@ -69,7 +73,7 @@ POST /api/dashboard
     {
       "datasource": {
         "name": "mqtt-test",
-        "index": 1
+        "index": 0
       },
       "title": "Title 3",
       "panel": "Text",
@@ -83,7 +87,7 @@ POST /api/dashboard
     {
       "datasource": {
         "name": "mqtt-test",
-        "index": 1
+        "index": 0
       },
       "title": "Title 4",
       "panel": "Text",
@@ -97,7 +101,7 @@ POST /api/dashboard
     {
       "datasource": {
         "name": "mqtt-test",
-        "index": 1
+        "index": 0
       },
       "title": "Title 5",
       "panel": "Gauge",
@@ -108,7 +112,7 @@ POST /api/dashboard
     {
       "datasource": {
         "name": "mqtt-test",
-        "index": 2
+        "index": 1
       },
       "title": "Tile 6",
       "panel": "StatusText",
