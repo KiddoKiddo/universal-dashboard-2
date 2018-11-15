@@ -34,9 +34,7 @@ class Dashboard extends Component {
   render() {
     return (
       <Theme>
-        <DashboardContainer
-          socket={socket}
-        />
+        <DashboardContainer socket={socket} />
       </Theme>
     );
   }

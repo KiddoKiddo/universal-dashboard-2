@@ -14,7 +14,7 @@ import Editor from './components/Editor/Editor';
 import reducers from './reducers';
 
 // Combine all vendor css(es)
-import './styles/styles.scss';
+import './styles/styles.css';
 
 const store = createStore(
   reducers,

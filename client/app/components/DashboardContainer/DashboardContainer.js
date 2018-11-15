@@ -15,7 +15,7 @@ import CardContent from '@material-ui/core/CardContent';
 import { updateDashboard } from '../../actions/dashboardActions';
 
 // Import styles
-import './DashboardContainer.scss';
+import './DashboardContainer.css';
 
 // Import components
 import Panels from '../panels'; // TODO: Better way to import panel
@@ -69,11 +69,11 @@ class DashboardContainer extends Component {
   // Generate the layout when layout is not available
   generateLayout(panels) {
     return panels.map((p, i) => {
-      const y = Math.ceil(Math.random() * 4) + 1; // Init height for each panel
+      const y = Math.ceil(Math.random() * 10) + 5; // Init height for each panel
       return {
-        x: (i * 2) % 12,
+        x: (i * 4) % 16,
         y: Math.floor(i / 6) * y,
-        w: 2,
+        w: 4,
         h: y,
         i: p._id, // To match with key attribute of each div inside ReactGridLayout
       };
@@ -82,9 +82,8 @@ class DashboardContainer extends Component {
 
   generatePanels(config) {
     // Predfined layout or generate layout
-    const layoutConfig = { className: 'layout', rowHeight: 30, cols: 12 };
+    const layoutConfig = { className: 'layout', rowHeight: 20, cols: 16 };
     const layout = config.layout || this.generateLayout(config.panels);
-
     return (
       <ReactGridLayout
         layout={layout}
@@ -94,22 +93,16 @@ class DashboardContainer extends Component {
         {config.panels.map(
           panel => (
             <div key={panel._id}>
-              <PanelCreator data={panel.datasource && this.getData(config.datasources, panel.datasource)} {...panel} />
+              <PanelCreator
+                data={panel.datasource && this.getData(config.datasources, panel.datasource)}
+                {...panel}
+              />
             </div>
           )
         )}
       </ReactGridLayout>
     );
   }
-
-  // registerDataHandler(socket, datasources) {
-  //   datasources.forEach((ds) => {
-  //     const { _id, name } = ds;
-  //     socket.on(_id, (payload) => {
-  //       this.setState({ data: { name: payload } });
-  //     });
-  //   });
-  // }
 
   render() {
     const { config } = this.props;

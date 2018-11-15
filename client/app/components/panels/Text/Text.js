@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 // Import Style
-import './Text.scss';
+import './Text.css';
 
 // TODO: Adding options for
 // - Style default text

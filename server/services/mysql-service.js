@@ -11,7 +11,6 @@ class MySQLService extends EventEmitter {
     super();
 
     const {
-      url,
       host,
       port,
       username,
@@ -41,28 +40,32 @@ class MySQLService extends EventEmitter {
       password: this.password,
       database: this.database,
     });
-    try {
-      this.connection.connect();
-    } catch (e) {
-      console.log(`[ MySQL ] ${e}`);
-      return null;
-    }
+
+    // Immediate execute one time before setting the interval
+    this.executeQueriesAndSendData();
 
     this.interval = setInterval(() => {
-      this.queries.forEach((query, index) => {
-        this.connection.query(query, (error, results) => {
-          if (error) throw error;
-          _.assignIn(this.data, { [`id${index}`]: results });
-        });
-      });
-
-      this.emit('data', this.data);
+      this.executeQueriesAndSendData();
     }, utils.getRateLimiterMilliseconds(rate, rateUnit));
+  }
 
-    // // Receive data
-    // this.client.on('message', (topic, message) => {
-    //   this.emit('data', JSON.parse(message.toString()));
-    // });
+  executeQueriesAndSendData() {
+    let count = this.queries.length;
+    this.queries.forEach((query, index) => {
+      this.connection.query(query, (error, results) => {
+        if (error) {
+          console.log(`[ MySQL ] ${error}`); return;
+        }
+
+        // Combine the data
+        _.assignIn(this.data, { [`id${index}`]: results });
+
+        // Send data once all the queries done
+        if (--count === 0) {
+          this.emit('data', this.data);
+        }
+      });
+    });
   }
 
   validateUrl() {
