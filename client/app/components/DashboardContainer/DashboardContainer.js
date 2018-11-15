@@ -94,7 +94,7 @@ class DashboardContainer extends Component {
         {config.panels.map(
           panel => (
             <div key={panel._id}>
-              <PanelCreator data={this.getData(config.datasources, panel.datasource)} {...panel} />
+              <PanelCreator data={panel.datasource && this.getData(config.datasources, panel.datasource)} {...panel} />
             </div>
           )
         )}
