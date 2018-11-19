@@ -18,12 +18,12 @@ const DashboardSchema = new mongoose.Schema({
     host: String,
     port: Number,
 
-    topics: [String], // mqtt
+    topics: { type: [String], default: null }, // mqtt
 
     username: String, // mysql
     password: String, // mysql
     database: String, // mysql
-    queries: [String], // mysql
+    queries: { type: [String], default: null }, // mysql
   }],
   panels: [{
     datasource: {

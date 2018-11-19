@@ -6,10 +6,8 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import RGL, { WidthProvider } from 'react-grid-layout';
 
-// React material ui
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
+// Import components
+import PanelCreator from './PanelCreator';
 
 // Import actions
 import { updateDashboard } from '../../actions/dashboardActions';
@@ -17,26 +15,7 @@ import { updateDashboard } from '../../actions/dashboardActions';
 // Import styles
 import './DashboardContainer.css';
 
-// Import components
-import Panels from '../panels'; // TODO: Better way to import panel
-
 const ReactGridLayout = WidthProvider(RGL);
-
-/*
-  PanelCreator: used as an interface for Panel in general
-*/
-const PanelCreator = (props) => {
-  const { panel, title } = props;
-  const Panel = Panels[panel];
-  return (
-    <Card className="panel-creator">
-      {title && <CardHeader title={title} className="panel-title" />}
-      <CardContent className="panel-body"><Panel {...props} /></CardContent>
-    </Card>
-  );
-};
-
-PanelCreator.propTypes = {}; // TODO: Type checking
 
 /*
   DashboardContainer

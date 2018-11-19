@@ -26,7 +26,6 @@ const styles = theme => ({
   root: {
     width: '100%',
     overflowX: 'auto',
-    overflowY: 'auto',
   },
   table: {
     minWidth: 700,
@@ -36,9 +35,9 @@ const styles = theme => ({
 
 const TableWidget = (props) => {
   const { data, options } = props;
-  const extOptions = Object.assign({}, options, {
+  const extOptions = Object.assign({
     // Default options
-  });
+  }, options);
 
   // const { fields } = extOptions;
   const fields = [

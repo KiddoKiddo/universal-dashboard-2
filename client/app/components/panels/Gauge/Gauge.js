@@ -8,7 +8,8 @@ import ReactRadialGauge from './ReactRadialGauge';
 // TODO:
 const Gauge = (props) => {
   const { data, options } = props;
-  const extOptions = Object.assign({}, options, {
+  const extOptions = Object.assign({
+    // Default options
     units: '°C',
     title: 'Temperature',
     height: 300,
@@ -17,7 +18,7 @@ const Gauge = (props) => {
     maxValue: 100,
     majorTicks: Array.from(new Array(10), (e, i) => i * 10),
     minorTicks: 10,
-  });
+  }, options);
   return (
     <ReactRadialGauge
       value={_.get(data, extOptions.path, '')}

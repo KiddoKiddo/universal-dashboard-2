@@ -3,6 +3,7 @@
 1. Install MongoDB
 2. Install React **Developer Tools** and **Redux DevTools** Chrome Extension
 3. Create a config file at **/config/config.js**. Fill the connection string of MongoDB in the file
+4. Install mqtt broker for test run
 
 Example:
 ```javascript

@@ -41,6 +41,8 @@ class MySQLService extends EventEmitter {
       database: this.database,
     });
 
+    this.connection.connect();
+
     // Immediate execute one time before setting the interval
     this.executeQueriesAndSendData();
 
