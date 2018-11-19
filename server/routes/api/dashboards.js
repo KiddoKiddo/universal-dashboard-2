@@ -80,4 +80,28 @@ module.exports = (app) => {
       })
       .catch(err => next(err));
   });
+
+  //Update panels
+  app.put(`/api/${route}/:id/panels/:panelId`, (req, res, next) => {
+    Dashboard.findById(req.params.id)
+      .exec()
+      .then((dashboard) => {
+        if (!dashboard) {
+          throw new Error(`There is no config with id ${req.params.id}`);
+        }
+        if (dashboard.panels.every((panel) => panel._id != req.params.panelId)){
+          throw new Error (`There is no panel with id ${req.params.panelId}`);
+        }
+        dashboard.panels.forEach((panel, i) => {
+          if (panel._id == req.params.panelId ){
+            dashboard.panels[i] = Object.assign(req.body, { _id: req.params.panelId });
+          }
+        })
+        console.log(dashboard);
+        dashboard.save()
+          .then(() => res.json(dashboard))
+          .catch(err => next(err));
+      })
+      .catch(err => next(err));
+  });
 };
