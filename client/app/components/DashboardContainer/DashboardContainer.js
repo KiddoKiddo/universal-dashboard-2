@@ -85,6 +85,10 @@ class DashboardContainer extends Component {
 
   render() {
     const { config } = this.props;
+
+    // To set the tab title
+    document.title = config.name || 'Universal Dashboard';
+
     return (
       <div className="dashboard-container">
         {!_.isEmpty(config) && this.generatePanels(config)}

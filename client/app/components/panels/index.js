@@ -4,6 +4,8 @@ import StatusText from './StatusText/StatusText';
 import Table from './Table/Table';
 import Image from './Image/Image';
 import TimeSeries from './TimeSeries/TimeSeries';
+import BarChart from './BarChart/BarChart';
+import PieChart from './PieChart/PieChart';
 
 export default {
   Gauge,
@@ -12,4 +14,6 @@ export default {
   Table,
   Image,
   TimeSeries,
+  BarChart,
+  PieChart,
 };

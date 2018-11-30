@@ -21,12 +21,13 @@ client.on('connect', () => {
       data: Array.from(new Array(6), () => getRandomInt(100)),
     }));
 
-    const reasonCodes = ['Reason Code 1', 'Reason Code 2', 'Reason Code 3'];
+    const reasonCodes = ['The machine is heated.', 'The machine is stopped.', 'Machine is running well.'];
     client.publish('seasl', JSON.stringify({
       machineName: `NTX1000 - ${getRandomInt(2)}`,
       operatorName: 'Tan Han Jin',
       reasonCode: _.sample(reasonCodes),
-      status: getRandomInt(4), // { "0": "Stop", "1": "Running", "2": "Idle" },
+      shift: getRandomInt(2),
+      status: getRandomInt(4), // { "0": "Stop", "1": "Run", "2": "Idle", "3": "Setup" },
       stopTime: getRandomInt(4),
       runTime: getRandomInt(4),
       idleTime: getRandomInt(4),
@@ -36,3 +37,5 @@ client.on('connect', () => {
     }));
   }, 500);
 });
+
+console.log('Test data generator for MQTT starting.');

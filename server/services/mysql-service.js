@@ -41,14 +41,18 @@ class MySQLService extends EventEmitter {
       database: this.database,
     });
 
-    this.connection.connect();
-
-    // Immediate execute one time before setting the interval
-    this.executeQueriesAndSendData();
-
-    this.interval = setInterval(() => {
+    this.connection.connect((err) => {
+      if (err) {
+        console.error(`[ MySQL ] error connecting: ${err.stack}`);
+        return;
+      }
+      // Immediate execute one time before setting the interval
       this.executeQueriesAndSendData();
-    }, utils.getRateLimiterMilliseconds(rate, rateUnit));
+
+      this.interval = setInterval(() => {
+        this.executeQueriesAndSendData();
+      }, utils.getRateLimiterMilliseconds(rate, rateUnit));
+    });
   }
 
   executeQueriesAndSendData() {
@@ -56,7 +60,9 @@ class MySQLService extends EventEmitter {
     this.queries.forEach((query, index) => {
       this.connection.query(query, (error, results) => {
         if (error) {
-          console.log(`[ MySQL ] ${error}`); return;
+          console.log(`[ MySQL ] ${error}`);
+          this.connection.connect();
+          return;
         }
 
         // Combine the data
