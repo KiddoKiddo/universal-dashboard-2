@@ -11,6 +11,7 @@
   "private": true,
   "scripts": {
     "start": "webpack -p --progress --profile --colors && node server",
+    "start:docker": "concurrently 'node server/services/tests/mqtt-test.js' 'node server'",
     "start:dev": "concurrently 'node server/services/tests/mqtt-test.js' 'node server'",
     "test:mqtt": "node server/services/tests/mqtt-test.js",
     "lint": "eslint"

@@ -1,0 +1,41 @@
+version: '3.1'
+services:
+  web:
+    image: universal-dashboard-2
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+      - mqtt
+    expose:
+      - "8080"
+    ports:
+      - "8080:8080"
+    environment:
+      NODE_ENV: development
+      MONGO_URL: mongodb://db:27017/universal-dashboard
+      MQTT_BROKER: mqtt://mqtt
+    networks:
+      - default
+  db:
+    image: mongo:latest
+    expose:
+      - "27017"
+    ports:
+      - "27017:27017"
+    networks:
+      - default
+  mqtt:
+    image: eclipse-mosquitto
+    expose:
+      - "1883"
+    ports:
+      - "1883:1883"
+    networks:
+      - default
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.18.1.0/24

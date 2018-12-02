@@ -2,21 +2,23 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-// Mongoose Config
-const config = require('../config/config');
-
 const isDev = process.env.NODE_ENV !== 'production';
 const port = process.env.PORT || 8080;
+const mongoURL = process.env.MONGO_URL || 'mongodb://localhost:27017/universal-dashboard';
+
+const dummy = require('./dummy');
 
 // Configuration
 // ================================================================================================
 
 // Set up Mongoose
-const mongoConfig = isDev ? config.db_dev : config.db;
-mongoose.connect(mongoConfig);
+mongoose.connect(mongoURL);
 mongoose.Promise = global.Promise;
 mongoose.connection.on('connected', () => {
-  console.log(`Successfully connect to ${mongoConfig}`);
+  console.log(`Successfully connect to ${mongoURL}`);
+
+  // Create dummy data
+  dummy();
 });
 
 mongoose.connection.on('error', (err) => {

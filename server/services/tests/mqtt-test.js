@@ -3,13 +3,15 @@ const moment = require('moment');
 const _ = require('lodash');
 
 // Testing broker
-const client = mqtt.connect('mqtt://localhost');
+const client = mqtt.connect(process.env.MQTT_BROKER || 'mqtt://localhost');
 
 const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
 };
 
 client.on('connect', () => {
+  console.log('Test data generator for MQTT: CONNECTED.');
+
   setInterval(() => {
     client.publish('ud-status', JSON.stringify({
       machine: 1,
@@ -38,4 +40,4 @@ client.on('connect', () => {
   }, 500);
 });
 
-console.log('Test data generator for MQTT starting.');
+console.log('Test data generator for MQTT: STARTING.');
