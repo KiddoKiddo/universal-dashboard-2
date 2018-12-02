@@ -16,11 +16,15 @@ import reducers from './reducers';
 // Combine all vendor css(es)
 import './styles/styles.css';
 
+const middleware = [
+  applyMiddleware(thunk),
+  ...(window.__REDUX_DEVTOOLS_EXTENSION__ ? [window.__REDUX_DEVTOOLS_EXTENSION__()] : []),
+];
+
 const store = createStore(
   reducers,
   {}, // Initial state
-  compose(applyMiddleware(thunk),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()),
+  compose(...middleware),
 );
 
 render((
