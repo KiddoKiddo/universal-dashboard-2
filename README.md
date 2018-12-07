@@ -117,6 +117,22 @@ There is two main groups of data services: listening and polling. For MQTT and O
 ### Data Sources
 
 
+|          | Description                                                           | MQTT   | MYSQL   | OPCUA   |
+|----------|-----------------------------------------------------------------------|--------|---------|---------|
+| type     | Type of data services                                                 | 'MQTT' | 'MYSQL' | 'OPCUA' |
+| name     | Unique identifier to be used in panels                                |        |         |         |
+| rate     | Value for the rate limiter                                            |        |         |         |
+| rateUnit | Unit for the key 'rate'. Values: 'h', 'm', 'ms'                       |        |         |         |
+| url      | URL of the data source. If 'url' is set, 'host' and 'port' is ignored |        |         |         |
+| host     |                                                                       |        |         |         |
+| port     |                                                                       |        |         |         |
+| topics   | MQTT topics to subscribe to. Format: ['topic1', 'topic2', 'topic3']   |        |         |         |
+| username |                                                                       |        |         |         |
+| password |                                                                       |        |         |         |
+| database |                                                                       |        |         |         |
+| queries  |                                                                       |        |         |         |
+| nodeIds  |                                                                       |        |         |         |
+
 Example:
 
 Data source configuration to connect to MySQL
