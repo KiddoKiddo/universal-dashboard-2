@@ -2,6 +2,7 @@
 
 The dashboard can be run by manually installing all prerequisites or using Docker.
 ## Run with Docker
+
 ```
 docker-compose build
 docker-compose up
@@ -11,19 +12,25 @@ docker-compose up
 1. Install MongoDB
 2. Install local MQTT broker or use any MQTT broker (optional for sample run)
 3. Install all dependencies
+
 ```
 npm install
 ```
+
 4. Set NODE_ENV variables
+
 ```
 # Default values if the environment is not set
 MONGO_URL=mongodb://localhost:27017/universal-dashboard
 MQTT_BROKER=localhost
 ```
+
 5. Run command
+
 ```
 npm run start:dev
 ```
+
 6. Look for sample dashboard id in the the print out. Access the dashboard using url: http://localhost:8080/dashboard/ [dashboard id]
 
 
