@@ -26,6 +26,7 @@ const DashboardSchema = new mongoose.Schema({
     queries: { type: [String], default: null }, // mysql
   }],
   panels: [{
+    layoutId: String,
     datasource: {
       name: String,
       index: Number,

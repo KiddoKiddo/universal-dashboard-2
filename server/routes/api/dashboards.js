@@ -1,4 +1,5 @@
 const Dashboard = require('../../models/Dashboard');
+const DashboardUtils = require('../../utils/dashboardUtils');
 const _ = require('lodash');
 
 const route = 'dashboard';
@@ -18,7 +19,9 @@ module.exports = (app) => {
     if (!config) {
       res.status(404).send({ message: 'No config is received.' });
     }
-    const dashboard = new Dashboard(config);
+
+    const validateConfig = DashboardUtils.validateConfig(config);
+    const dashboard = new Dashboard(validateConfig);
 
     dashboard.save()
       .then(() => res.json(dashboard))
@@ -39,7 +42,7 @@ module.exports = (app) => {
       .exec()
       .then((dashboard) => {
         if (!dashboard) {
-          throw new Error(`There is no config with id ${req.params.id}`);
+          res.status(404).send({ message: `There is no config with id ${req.params.id}` });
         }
         _.assignIn(dashboard, req.body);
         dashboard.save()
@@ -55,7 +58,7 @@ module.exports = (app) => {
       .exec()
       .then((dashboard) => {
         if (!dashboard) {
-          throw new Error(`There is no config with id ${req.params.id}`);
+          res.status(404).send({ message: `There is no config with id ${req.params.id}` });
         }
         dashboard.datasources.push(req.body);
         dashboard.save()
@@ -65,13 +68,13 @@ module.exports = (app) => {
       .catch(err => next(err));
   });
 
-  // Add datasoures
+  // Add panels
   app.post(`/api/${route}/:id/panels`, (req, res, next) => {
     Dashboard.findById(req.params.id)
       .exec()
       .then((dashboard) => {
         if (!dashboard) {
-          throw new Error(`There is no config with id ${req.params.id}`);
+          res.status(404).send({ message: `There is no config with id ${req.params.id}` });
         }
         dashboard.panels.push(req.body);
         dashboard.save()
@@ -81,25 +84,24 @@ module.exports = (app) => {
       .catch(err => next(err));
   });
 
-  //Update panels
+  // Update panels
   app.put(`/api/${route}/:id/panels/:panelId`, (req, res, next) => {
     Dashboard.findById(req.params.id)
       .exec()
       .then((dashboard) => {
         if (!dashboard) {
-          throw new Error(`There is no config with id ${req.params.id}`);
+          res.status(404).send({ message: `There is no config with id ${req.params.id}` });
+          return;
         }
-        if (dashboard.panels.every((panel) => panel._id != req.params.panelId)){
-          throw new Error (`There is no panel with id ${req.params.panelId}`);
+
+        const panelIndex = _.findIndex(dashboard.panels, (p) => { return p._id.toString() === req.params.panelId; });
+        if (panelIndex < 0) {
+          res.status(404).send({ message: `There is no panel with id ${req.params.panelId}` });
         }
-        dashboard.panels.forEach((panel, i) => {
-          if (panel._id == req.params.panelId ){
-            dashboard.panels[i] = Object.assign(req.body, { _id: req.params.panelId });
-          }
-        })
-        console.log(dashboard);
+        dashboard.panels.splice(panelIndex, 1, Object.assign(req.body, { _id: req.params.panelId }));
+
         dashboard.save()
-          .then(() => res.json(dashboard))
+          .then(() => res.json(_.findIndex(dashboard.panels, (p) => { return p._id.toString() === req.params.panelId; })))
           .catch(err => next(err));
       })
       .catch(err => next(err));

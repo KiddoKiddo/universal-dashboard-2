@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
-// Import library
+import shortid from 'shortid';
 import _ from 'lodash';
 import RGL, { WidthProvider } from 'react-grid-layout';
 
@@ -10,7 +9,9 @@ import RGL, { WidthProvider } from 'react-grid-layout';
 import PanelCreator from './PanelCreator';
 
 // Import actions
-import { updateDashboard } from '../../actions/dashboardActions';
+import {
+  updateDashboard,
+} from '../../actions/dashboardActions';
 
 // Import styles
 import './DashboardContainer.css';
@@ -45,33 +46,18 @@ class DashboardContainer extends Component {
     return _.get(this.props.data, `${datasourceId}.id${index}`);
   }
 
-  // Generate the layout when layout is not available
-  generateLayout(panels) {
-    return panels.map((p, i) => {
-      const y = Math.ceil(Math.random() * 10) + 5; // Init height for each panel
-      return {
-        x: (i * 4) % 16,
-        y: Math.floor(i / 6) * y,
-        w: 4,
-        h: y,
-        i: p._id, // To match with key attribute of each div inside ReactGridLayout
-      };
-    });
-  }
-
   generatePanels(config) {
     // Predfined layout or generate layout
     const layoutConfig = { className: 'layout', rowHeight: 20, cols: 16 };
-    const layout = config.layout || this.generateLayout(config.panels);
     return (
       <ReactGridLayout
-        layout={layout}
+        layout={config.layout}
         onLayoutChange={newLayout => this.onLayoutChange(config._id, newLayout)}
         {...layoutConfig}
       >
         {config.panels.map(
           panel => (
-            <div key={panel._id}>
+            <div key={panel.layoutId}>
               <PanelCreator
                 data={panel.datasource && this.getData(config.datasources, panel.datasource)}
                 {...panel}

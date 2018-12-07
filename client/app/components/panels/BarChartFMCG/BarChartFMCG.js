@@ -5,7 +5,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
 // Import Style
-import './BarChart.css';
+import './BarChartFMCG.css';
 
 const processSeries = (socketData, series) => {
   const finalSeries = [];
@@ -24,7 +24,7 @@ const processSeries = (socketData, series) => {
   return finalSeries;
 };
 
-const BarChart = (props) => {
+const BarChartFMCG = (props) => {
   const { data, options } = props;
   const series = processSeries(data, options.series);
   const extOptions = Object.assign({
@@ -42,14 +42,14 @@ const BarChart = (props) => {
   );
 };
 
-BarChart.propTypes = {
+BarChartFMCG.propTypes = {
   data: PropTypes.any,
   options: PropTypes.object,
 };
 
-BarChart.defaultProps = {
+BarChartFMCG.defaultProps = {
   data: {},
   options: {},
 };
 
-export default BarChart;
+export default BarChartFMCG;
