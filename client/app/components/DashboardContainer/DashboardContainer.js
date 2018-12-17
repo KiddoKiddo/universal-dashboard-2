@@ -70,7 +70,7 @@ class DashboardContainer extends Component {
   }
 
   render() {
-    const { config } = this.props;
+    const { config, socket } = this.props;
 
     // To set the tab title
     document.title = config.name || 'Universal Dashboard';

@@ -22,7 +22,7 @@ npm install
 ```
 # Default values if the environment is not set
 MONGO_URL=mongodb://localhost:27017/universal-dashboard
-MQTT_BROKER=localhost
+MQTT_BROKER=mqtt://localhost
 ```
 
 5. Run command

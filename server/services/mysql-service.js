@@ -42,6 +42,7 @@ class MySQLService extends EventEmitter {
     });
 
     this.connection.connect((err) => {
+      console.log(`[ MySQL ] Successfully connect [${this.host}] with database [${this.database}]`);
       if (err) {
         console.error(`[ MySQL ] error connecting: ${err.stack}`);
         return;

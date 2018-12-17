@@ -15,7 +15,7 @@ services:
     environment:
       NODE_ENV: development
       MONGO_URL: mongodb://db:27017/universal-dashboard
-      MQTT_BROKER: locahost
+      MQTT_BROKER: mqtt://locahost
     networks:
       - default
   db:

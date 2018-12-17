@@ -14,9 +14,11 @@ module.exports = {
       };
     });
   },
-
+  // For newly created dashboard
   validateConfig(config) {
+    // Generate layoutId
     const panels = config.panels.map(panel => Object.assign(panel, { layoutId: shortid() }));
+    // Generate the initial layout
     const layout = this.generateLayout(config.panels);
     return Object.assign(config, { layout, panels });
   },

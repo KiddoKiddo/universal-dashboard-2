@@ -13,7 +13,6 @@ import styles from './Dashboard.css';
 
 // Import Components
 import DashboardContainer from '../DashboardContainer/DashboardContainer';
-import Theme from '../../styles/material-ui-theme';
 
 const mapStateToProps = state => ({
   ...state.dashboard,
@@ -33,9 +32,7 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <Theme>
-        <DashboardContainer socket={socket} />
-      </Theme>
+      <DashboardContainer socket={socket} />
     );
   }
 }

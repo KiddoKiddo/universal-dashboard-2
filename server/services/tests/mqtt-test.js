@@ -3,7 +3,7 @@ const moment = require('moment');
 const _ = require('lodash');
 
 // Testing broker
-const client = mqtt.connect(process.env.MQTT_BROKER || 'localhost');
+const client = mqtt.connect(process.env.MQTT_BROKER || 'mqtt://localhost');
 
 const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max));

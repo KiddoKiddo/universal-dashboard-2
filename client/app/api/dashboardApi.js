@@ -1,6 +1,14 @@
 import _ from 'lodash';
 
-class DashboardApi {
+export default class DashboardApi {
+  static fetchDashboards() {
+    return fetch('/api/dashboard/all').then((res) => {
+      return res.json();
+    }).catch((error) => {
+      return error;
+    });
+  }
+
   static fetchDashboard(id) {
     return fetch(`/api/dashboard/${id}`).then((res) => {
       // TODO: api with "ok" and "statusText"
@@ -27,4 +35,3 @@ class DashboardApi {
     });
   }
 }
-export default DashboardApi;

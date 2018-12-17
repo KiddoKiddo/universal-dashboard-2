@@ -1,11 +1,25 @@
+const _ = require('lodash');
+const shortid = require('shortid');
 const Dashboard = require('../../models/Dashboard');
 const DashboardUtils = require('../../utils/dashboardUtils');
-const _ = require('lodash');
 
 const route = 'dashboard';
 
 module.exports = (app) => {
-  // Get info of one dashboard
+  // Get all dashboard
+  app.get(`/api/${route}/all`, (req, res, next) => {
+    Dashboard.find({})
+      .exec()
+      .then((result) => {
+        res.json(result.map((r) => {
+          const { _id, name } = r;
+          return { _id, name };
+        }));
+      })
+      .catch(err => next(err));
+  });
+
+  // Get one dashboard
   app.get(`/api/${route}/:id`, (req, res, next) => {
     Dashboard.findById(req.params.id)
       .exec()
@@ -76,7 +90,8 @@ module.exports = (app) => {
         if (!dashboard) {
           res.status(404).send({ message: `There is no config with id ${req.params.id}` });
         }
-        dashboard.panels.push(req.body);
+        // Add the layoutId for new panel
+        dashboard.panels.push(Object.assign(req.body, { layoutId: shortid() }));
         dashboard.save()
           .then(() => res.json(dashboard))
           .catch(err => next(err));
@@ -101,7 +116,11 @@ module.exports = (app) => {
         dashboard.panels.splice(panelIndex, 1, Object.assign(req.body, { _id: req.params.panelId }));
 
         dashboard.save()
-          .then(() => res.json(_.findIndex(dashboard.panels, (p) => { return p._id.toString() === req.params.panelId; })))
+          .then(() => res.json(
+            _.find(dashboard.panels, (p) => {
+              return p._id.toString() === req.params.panelId;
+            })
+          ))
           .catch(err => next(err));
       })
       .catch(err => next(err));

@@ -17,7 +17,7 @@ module.exports = () => {
           ],
           name: 'mqtt-test',
           type: 'MQTT',
-          host: process.env.MQTT_BROKER || 'localhost',
+          host: process.env.MQTT_BROKER || 'mqtt://localhost',
           rate: 2,
           rateUnit: 's'
         }
