@@ -42,7 +42,6 @@ export function addDataSocket(id, payload) {
 
 export function initDashboardSocket(config, socket) {
   return (dispatch) => {
-    // Init
     socket.emit('config', config);
 
     config.datasources.forEach((ds) => {

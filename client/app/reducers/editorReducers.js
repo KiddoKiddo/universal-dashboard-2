@@ -25,24 +25,6 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         config: action.config,
       });
-    //
-    // case CREATE_DASHBOARD:
-    //   return {
-    //     // data: [action.post, ...state.data],
-    //     panels: action.id,
-    //   };
-    //
-    // case SAVE_DASHBOARD:
-    //   return {
-    //     // data: action.posts,
-    //     panels: action.id,
-    //   };
-    //
-    // case DELETE_DASHBOARD:
-    //   return {
-    //     // data: state.data.filter(post => post.cuid !== action.cuid),
-    //     panels: action.id,
-    //   };
 
     default:
       return state;

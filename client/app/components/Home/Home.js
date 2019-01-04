@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -19,6 +17,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 
 import {
   fetchDashboards,
@@ -35,13 +34,12 @@ const mapDispatchToProps = dispatch => ({
 const styles = {
   root: {
     flexGrow: 1,
+    height: '100vh',
+    background: 'linear-gradient(-20deg, #ffffff70, #ffffffff 80%), url("./assets/img/home-background.jpg") no-repeat',
+    backgroundSize: 'cover, cover',
   },
   grow: {
     flexGrow: 1,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
   },
 };
 
@@ -51,22 +49,26 @@ class Home extends Component {
   }
 
   handleListItemClick(id) {
-    window.location = `./dashboard/${id}`;
+    window.open(`./dashboard/${id}`);
+  }
+
+  handleEditItemClick(id) {
+    window.open(`./editor/${id}`);
   }
 
   generateList(dashboards = []) {
     return dashboards.map(d => (
       <ListItem
         key={d._id}
-        button onClick={event => this.handleListItemClick(d._id)}
+        button
+        onClick={() => this.handleListItemClick(d._id)}
       >
-        <ListItemAvatar>
-          <Avatar>
-            <DashboardIcon />
-          </Avatar>
-        </ListItemAvatar>
+        <ListItemAvatar><Avatar><DashboardIcon /></Avatar></ListItemAvatar>
         <ListItemText primary={d.name} />
         <ListItemSecondaryAction>
+          <IconButton aria-label="Edit" onClick={() => this.handleEditItemClick(d._id)}>
+            <EditIcon />
+          </IconButton>
           <IconButton aria-label="Delete">
             <DeleteIcon />
           </IconButton>
@@ -76,15 +78,12 @@ class Home extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, dashboards } = this.props;
 
     return (
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-              <MenuIcon />
-            </IconButton>
             <Typography variant="h6" color="inherit" className={classes.grow}>
               Universal Dashboard
             </Typography>
@@ -92,7 +91,7 @@ class Home extends Component {
           </Toolbar>
         </AppBar>
         <List>
-          {this.generateList(this.props.dashboards)}
+          {this.generateList(dashboards)}
         </List>
       </div>
     );

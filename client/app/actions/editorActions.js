@@ -31,17 +31,15 @@ export function statusFail(response) {
   };
 }
 
-export function fetchDashboard(id) {
-  return (dispatch) => {
-    dashboardApi.fetchDashboard(id)
-      .then((config) => {
-        if (config) {
-          dispatch(loadDashboard(config));
-        } else {
-          dispatch(statusFail('Config is null'));
-        }
-        return config;
-      })
-      .catch(e => dispatch(statusFail(e)));
-  };
-}
+export const fetchDashboard = id => (dispatch, getState) => {
+  dashboardApi.fetchDashboard(id)
+    .then((config) => {
+      if (config) {
+        dispatch(loadDashboard(config));
+      } else {
+        dispatch(statusFail('Config is null.'));
+      }
+      return config;
+    })
+    .catch(e => dispatch(statusFail(e)));
+};

@@ -6,7 +6,7 @@ const DashboardUtils = require('../../utils/dashboardUtils');
 const route = 'dashboard';
 
 module.exports = (app) => {
-  // Get all dashboard
+  // Get all dashboard { _id, name }
   app.get(`/api/${route}/all`, (req, res, next) => {
     Dashboard.find({})
       .exec()
@@ -58,7 +58,11 @@ module.exports = (app) => {
         if (!dashboard) {
           res.status(404).send({ message: `There is no config with id ${req.params.id}` });
         }
-        _.assignIn(dashboard, req.body);
+        // Validate config
+        // const newDashboard = DashboardUtils.processUpdatedConfig(req.body);
+
+        // _.assignIn(dashboard, newDashboard);
+
         dashboard.save()
           .then(() => res.json(dashboard))
           .catch(err => next(err));
