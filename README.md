@@ -171,6 +171,8 @@ Data source configuration to connect to MySQL
 
 ## API
 
+Postman collection: https://www.getpostman.com/collections/95a9355a87f3bf6fe205
+
 ### Create new dashboard
 
 ```
