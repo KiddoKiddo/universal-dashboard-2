@@ -60,8 +60,9 @@ module.exports = (app) => {
         }
         // Validate config
         // const newDashboard = DashboardUtils.processUpdatedConfig(req.body);
+        const newDashboard = req.body;
 
-        // _.assignIn(dashboard, newDashboard);
+        _.assignIn(dashboard, newDashboard);
 
         dashboard.save()
           .then(() => res.json(dashboard))

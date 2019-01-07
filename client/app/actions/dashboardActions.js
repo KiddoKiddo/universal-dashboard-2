@@ -69,6 +69,7 @@ export function fetchDashboard(id, socket) {
 }
 
 export function updateDashboard(id, updatedConfig) {
+  console.log(updatedConfig.layout[0]);
   return (dispatch) => {
     dispatch({ type: UPDATE_DASHBOARD });
     dashboardApi.updateDashboard(id, updatedConfig)
